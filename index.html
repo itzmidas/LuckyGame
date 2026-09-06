@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lucky Game 🎰 — Liquid Glass Edition</title>
+<title>Lucky Game 🎰</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="alternate icon" href="favicon.svg">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   
@@ -205,16 +207,21 @@
     color: var(--gold-primary);
   }
 
+  .balance-bonus-wrap {
+    display: flex;
+    align-items: center;
+  }
+
   .debug-btn {
-    margin-top: auto;
-    padding: 12px;
+    margin-top: 10px;
+    padding: 12px 16px;
     background: rgba(255, 255, 255, 0.03);
-    border-radius: 10px;
+    border-radius: 12px;
     text-align: center;
     color: var(--text-muted);
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     cursor: pointer;
     border: 1px dashed var(--glass-border);
     transition: all 0.2s ease;
@@ -222,6 +229,7 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+    width: 100%;
   }
   .debug-btn:hover {
     color: var(--gold-primary);
@@ -344,6 +352,36 @@
     background: rgba(212, 175, 55, 0.15);
     border-color: var(--glass-border-gold);
     color: var(--gold-light);
+  }
+  .bet-btn.active {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(245, 230, 173, 0.12));
+    border-color: var(--gold-primary);
+    color: var(--gold-light);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.25);
+  }
+  .bet-btn.turbo-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .bet-btn.turbo-btn.active {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.35), rgba(46, 204, 113, 0.18));
+    border-color: var(--gold-primary);
+    color: #FFFFFF;
+    box-shadow: 0 0 14px rgba(212, 175, 55, 0.35);
+  }
+  body.turbo-active .mine-cell {
+    transition: none !important;
+    animation: none !important;
+  }
+  body.turbo-active .mine-cell.revealed.mine {
+    animation: none !important;
+  }
+  body.turbo-active #hiloCard {
+    transition: none !important;
   }
 
   .btn {
@@ -514,20 +552,24 @@
     box-shadow: 0 0 20px rgba(255, 215, 0, 0.5), inset 0 0 10px rgba(255, 215, 0, 0.3);
   }
 
-  .crash-multiplier.crash-r1 { color: #FF3B30; text-shadow: 0 0 25px rgba(255, 59, 48, 0.6); }
-  .crash-multiplier.crash-r2 { color: #2ECC71; text-shadow: 0 0 25px rgba(46, 204, 113, 0.6); }
-  .crash-multiplier.crash-r3 { color: #5AC8FA; text-shadow: 0 0 25px rgba(90, 200, 250, 0.6); }
-  .crash-multiplier.crash-r4 { color: #AF52DE; text-shadow: 0 0 25px rgba(175, 82, 222, 0.6); }
+  .crash-multiplier.crash-r1 { color: #FF3B30; text-shadow: 0 0 35px rgba(255, 59, 48, 0.85); }
+  .crash-multiplier.crash-r2 { color: #2ECC71; text-shadow: 0 0 35px rgba(46, 204, 113, 0.85); }
+  .crash-multiplier.crash-r3 { color: #5AC8FA; text-shadow: 0 0 35px rgba(90, 200, 250, 0.85); }
+  .crash-multiplier.crash-r4 { color: #AF52DE; text-shadow: 0 0 35px rgba(175, 82, 222, 0.85); }
   .crash-multiplier.crash-r5 {
     background: linear-gradient(135deg, #FFE259 0%, #FFA751 50%, #FFD700 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     color: #FFD700;
-    filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.8));
+    filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.9));
   }
-  .crash-multiplier.boosted {
-    filter: drop-shadow(0 0 45px rgba(255, 215, 0, 0.95)) drop-shadow(0 0 25px rgba(255, 255, 255, 0.8));
+  .crash-multiplier.crash-r1.boosted { filter: drop-shadow(0 0 45px rgba(255, 59, 48, 0.95)) drop-shadow(0 0 25px rgba(255, 59, 48, 0.7)); }
+  .crash-multiplier.crash-r2.boosted { filter: drop-shadow(0 0 45px rgba(46, 204, 113, 0.95)) drop-shadow(0 0 25px rgba(46, 204, 113, 0.7)); }
+  .crash-multiplier.crash-r3.boosted { filter: drop-shadow(0 0 45px rgba(90, 200, 250, 0.95)) drop-shadow(0 0 25px rgba(90, 200, 250, 0.7)); }
+  .crash-multiplier.crash-r4.boosted { filter: drop-shadow(0 0 45px rgba(175, 82, 222, 0.95)) drop-shadow(0 0 25px rgba(175, 82, 222, 0.7)); }
+  .crash-multiplier.crash-r5.boosted {
+    filter: drop-shadow(0 0 50px rgba(255, 215, 0, 0.95)) drop-shadow(0 0 30px rgba(255, 255, 255, 0.85));
   }
 
   /* Arena */
@@ -1083,6 +1125,150 @@
     .upgrader-view { grid-template-columns: 1fr; }
     .upgrader-arrow { transform: rotate(90deg); }
   }
+
+  /* Achievements */
+  .achievements-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .ach-stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 16px 20px;
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+  }
+  .ach-stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .ach-stat-value {
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--gold-light);
+    margin-top: 4px;
+  }
+  .achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .achievement-card {
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    padding: 18px;
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+  .achievement-card.unlocked {
+    border-color: var(--glass-border-gold);
+    background: linear-gradient(135deg, rgba(32, 26, 12, 0.65), rgba(20, 20, 26, 0.75));
+    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  .achievement-card.unlocked::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold-gradient);
+  }
+  .achievement-card.locked {
+    opacity: 0.6;
+    filter: grayscale(0.5);
+  }
+  .achievement-card:hover {
+    transform: translateY(-3px);
+  }
+  .achievement-card.unlocked:hover {
+    box-shadow: 0 12px 35px rgba(212, 175, 55, 0.25);
+    border-color: rgba(212, 175, 55, 0.6);
+  }
+  .ach-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .achievement-card.unlocked .ach-icon-box {
+    background: rgba(212, 175, 55, 0.12);
+    border-color: var(--glass-border-gold);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+  }
+  .ach-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .ach-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 4px;
+  }
+  .achievement-card.unlocked .ach-title {
+    color: #FFFFFF;
+  }
+  .ach-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+  .achievement-card.unlocked .ach-desc {
+    color: var(--gold-light);
+  }
+  .ach-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border-radius: 20px;
+  }
+  .ach-badge.unlocked {
+    background: rgba(46, 204, 113, 0.15);
+    color: var(--neon-g);
+    border: 1px solid rgba(46, 204, 113, 0.3);
+  }
+  .ach-badge.locked {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-muted);
+    border: 1px solid var(--glass-border);
+  }
+  .ach-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+  .ach-progress-fill {
+    height: 100%;
+    background: var(--gold-gradient);
+    border-radius: 4px;
+  }
 </style>
 </head>
 <body>
@@ -1097,6 +1283,9 @@
     </div>
     <a class="nav-item active" data-page="home">
       <span class="icon"><svg class="icon-svg" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> Главная
+    </a>
+    <a class="nav-item" data-page="achievements">
+      <span class="icon"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H8c-.55 0-1 .45-1 1v1h10v-1c0-.55-.45-1-1-1h-1c-.55 0-1-.45-1-1v-2.34c3.08-.75 5-3.32 5-6.66V3H5v6c0 3.34 1.92 5.91 5 6.66Z"/></svg></span> Достижения
     </a>
     <a class="nav-item" data-page="crash">
       <span class="icon"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-3.05 11a22.35 22.35 0 0 1-3.95 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></span> Краш
@@ -1128,7 +1317,7 @@
     <a class="nav-item" data-page="inventory">
       <span class="icon"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg></span> Инвентарь
     </a>
-    <div class="debug-btn" id="debugTrigger">
+    <div class="debug-btn" id="debugTrigger" style="width: 100%;">
       <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
       DEBUG
     </div>
@@ -1141,7 +1330,7 @@
       </button>
       <div class="header-title" id="headerTitle">Lucky Game</div>
     </div>
-    <div class="balance">
+    <div class="balance" id="balanceContainer">
       <span class="balance-icon">
         <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="8" cy="8" r="6"/><path d="M18 8a6 6 0 0 1-6 6"/><path d="M14 14a6 6 0 0 1-6 6"/><circle cx="16" cy="16" r="6"/></svg>
       </span>
@@ -1155,12 +1344,67 @@
   <main id="main">
     <!-- HOME -->
     <div class="page active" id="page-home">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom: 22px; flex-wrap:wrap;">
+        <button class="btn btn-secondary active" style="width:auto; padding:10px 22px; font-weight:700; border-color:var(--glass-border-gold); background:rgba(212,175,55,0.15); display:inline-flex; align-items:center; gap:8px;" onclick="switchPage('home')">
+          <svg class="icon-svg" style="width:18px; height:18px; stroke:var(--gold-primary);" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Главная
+        </button>
+        <button class="btn btn-secondary" style="width:auto; padding:10px 22px; font-weight:700; border-color:var(--glass-border); background:var(--bg-card); display:inline-flex; align-items:center; gap:8px;" onclick="switchPage('achievements')">
+          <svg class="icon-svg" style="width:18px; height:18px; stroke:var(--gold-primary);" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H8c-.55 0-1 .45-1 1v1h10v-1c0-.55-.45-1-1-1h-1c-.55 0-1-.45-1-1v-2.34c3.08-.75 5-3.32 5-6.66V3H5v6c0 3.34 1.92 5.91 5 6.66Z"/></svg>
+          Достижения
+        </button>
+      </div>
       <h1 class="page-title">
         <svg class="icon-svg" style="width:32px; height:32px; stroke:var(--gold-primary);" viewBox="0 0 24 24"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14v2H5v-2z"/></svg>
         Добро пожаловать в Lucky Game
       </h1>
       <p class="page-subtitle">Выбери режим и испытай удачу. Всё на виртуальной валюте — только веселье!</p>
       <div class="modes-grid" id="modesGrid"></div>
+    </div>
+
+    <!-- ACHIEVEMENTS -->
+    <div class="page" id="page-achievements">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom: 22px; flex-wrap:wrap;">
+        <button class="btn btn-secondary" style="width:auto; padding:10px 22px; font-weight:700; border-color:var(--glass-border); background:var(--bg-card); display:inline-flex; align-items:center; gap:8px;" onclick="switchPage('home')">
+          <svg class="icon-svg" style="width:18px; height:18px;" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Главная
+        </button>
+        <button class="btn btn-secondary active" style="width:auto; padding:10px 22px; font-weight:700; border-color:var(--glass-border-gold); background:rgba(212,175,55,0.15); display:inline-flex; align-items:center; gap:8px;" onclick="switchPage('achievements')">
+          <svg class="icon-svg" style="width:18px; height:18px; stroke:var(--gold-primary);" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H8c-.55 0-1 .45-1 1v1h10v-1c0-.55-.45-1-1-1h-1c-.55 0-1-.45-1-1v-2.34c3.08-.75 5-3.32 5-6.66V3H5v6c0 3.34 1.92 5.91 5 6.66Z"/></svg>
+          Достижения
+        </button>
+      </div>
+
+      <h1 class="page-title">
+        <svg class="icon-svg" style="width:30px; height:30px; stroke:var(--gold-primary);" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H8c-.55 0-1 .45-1 1v1h10v-1c0-.55-.45-1-1-1h-1c-.55 0-1-.45-1-1v-2.34c3.08-.75 5-3.32 5-6.66V3H5v6c0 3.34 1.92 5.91 5 6.66Z"/></svg>
+        Достижения
+      </h1>
+      <p class="page-subtitle">Выполняй задания, ставь рекорды и открывай трофеи!</p>
+
+      <div class="achievements-stats">
+        <div class="ach-stat-card">
+          <div class="ach-stat-label">Разблокировано</div>
+          <div class="ach-stat-value" id="achUnlockedCount">0 / 23</div>
+        </div>
+        <div class="ach-stat-card">
+          <div class="ach-stat-label">Прогресс</div>
+          <div class="ach-stat-value" id="achUnlockedPercent">0%</div>
+          <div class="ach-progress-bar" style="margin-top:8px;"><div class="ach-progress-fill" id="achTotalProgressBar" style="width:0%;"></div></div>
+        </div>
+        <div class="ach-stat-card">
+          <div class="ach-stat-label">Поставлено всего</div>
+          <div class="ach-stat-value" id="achTotalBetVal">0 LC</div>
+        </div>
+      </div>
+
+      <div class="achievements-grid" id="achievementsList"></div>
+
+      <div style="margin-top: 48px; text-align: center; padding-top: 24px; border-top: 1px solid var(--glass-border);">
+        <button class="btn btn-danger" onclick="resetAchievements()" style="max-width: 340px; margin: 0 auto; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; padding: 12px 24px; border-radius: 14px;">
+          <svg class="icon-svg" style="width: 18px; height: 18px;" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+          Сбросить достижения
+        </button>
+      </div>
     </div>
 
     <!-- CRASH -->
@@ -1181,6 +1425,7 @@
               <button class="bet-btn" onclick="quickBet('crashBet', 'min')">MIN</button>
               <button class="bet-btn" onclick="quickBet('crashBet', 'max')">MAX</button>
             </div>
+            <button class="bet-btn turbo-btn" onclick="toggleTurbo()" style="width:100%; margin-top:8px;">⚡ ТУРБО: <span class="turbo-status">ВЫКЛ</span></button>
           </div>
           <div class="control-group">
             <label class="control-label">Автовывод при x</label>
@@ -1218,6 +1463,7 @@
               <button class="bet-btn" onclick="quickBet('arenaBet', 'min')">MIN</button>
               <button class="bet-btn" onclick="quickBet('arenaBet', 'max')">MAX</button>
             </div>
+            <button class="bet-btn turbo-btn" onclick="toggleTurbo()" style="width:100%; margin-top:8px;">⚡ ТУРБО: <span class="turbo-status">ВЫКЛ</span></button>
           </div>
           <div style="text-align:center; padding:12px; background: rgba(212,175,55,0.08); border: 1px solid var(--glass-border-gold); border-radius:12px; margin-bottom:14px;">
             <div style="font-size:12px; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Общий банк</div>
@@ -1253,14 +1499,20 @@
               <button class="bet-btn" onclick="quickBet('plinkoBet', 'min')">MIN</button>
               <button class="bet-btn" onclick="quickBet('plinkoBet', 'max')">MAX</button>
             </div>
+            <button class="bet-btn turbo-btn" onclick="toggleTurbo()" style="width:100%; margin-top:8px;">⚡ ТУРБО: <span class="turbo-status">ВЫКЛ</span></button>
           </div>
           <div class="control-group">
             <label class="control-label">Риск</label>
-            <div class="risk-selector">
+            <div class="risk-selector" style="grid-template-columns: repeat(4, 1fr);">
               <button class="risk-btn active" data-risk="low" onclick="setPlinkoRisk('low')">Низкий</button>
               <button class="risk-btn" data-risk="med" onclick="setPlinkoRisk('med')">Средний</button>
               <button class="risk-btn" data-risk="high" onclick="setPlinkoRisk('high')">Высокий</button>
+              <button class="risk-btn" data-risk="custom" onclick="setPlinkoRisk('custom')">Кастом</button>
             </div>
+          </div>
+          <div class="control-group" id="plinkoCustomGroup" style="display:none;">
+            <label class="control-label">Макс. множитель ячейки 0 (напр. 50)</label>
+            <input type="number" class="input" id="plinkoCustomMult" value="50" step="1" min="1" oninput="updatePlinkoCustomMult()">
           </div>
           <button class="btn btn-primary" onclick="plinkoDrop()">БРОСИТЬ ШАРИК</button>
         </div>
@@ -1293,6 +1545,9 @@
           <div style="text-align:center;" id="caseResult"></div>
         </div>
       </div>
+      <div style="display:flex; justify-content:flex-end; margin-bottom:14px;">
+        <button class="bet-btn turbo-btn" onclick="toggleTurbo()" style="width:auto; padding:8px 20px;">⚡ ТУРБО: <span class="turbo-status">ВЫКЛ</span></button>
+      </div>
       <div class="cases-list" id="casesList"></div>
     </div>
 
@@ -1314,6 +1569,7 @@
               <button class="bet-btn" onclick="quickBet('minesBet', 'min')">MIN</button>
               <button class="bet-btn" onclick="quickBet('minesBet', 'max')">MAX</button>
             </div>
+            <button class="bet-btn turbo-btn" onclick="toggleTurbo()" style="width:100%; margin-top:8px;">⚡ ТУРБО: <span class="turbo-status">ВЫКЛ</span></button>
           </div>
           <div class="control-group">
             <label class="control-label">Количество мин (1-24)</label>
@@ -1350,6 +1606,7 @@
               <button class="bet-btn" onclick="quickBet('hiloBet', 'min')">MIN</button>
               <button class="bet-btn" onclick="quickBet('hiloBet', 'max')">MAX</button>
             </div>
+            <button class="bet-btn turbo-btn" onclick="toggleTurbo()" style="width:100%; margin-top:8px;">⚡ ТУРБО: <span class="turbo-status">ВЫКЛ</span></button>
           </div>
           <div style="text-align:center; padding:12px; background: rgba(46,204,113,0.1); border: 1px solid rgba(46,204,113,0.25); border-radius:12px; margin-bottom:14px;">
             <div style="font-size:12px; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Множитель</div>
@@ -1391,6 +1648,7 @@
               <button class="bet-btn" onclick="quickBet('diceBet', 'min')">MIN</button>
               <button class="bet-btn" onclick="quickBet('diceBet', 'max')">MAX</button>
             </div>
+            <button class="bet-btn turbo-btn" onclick="toggleTurbo()" style="width:100%; margin-top:8px;">⚡ ТУРБО: <span class="turbo-status">ВЫКЛ</span></button>
           </div>
           <div class="control-group">
             <label class="control-label">Направление</label>
@@ -1473,7 +1731,8 @@
               <input type="number" class="roulette-bet-input" id="roul-num-bet" placeholder="Ставка (x36)" min="0">
             </div>
           </div>
-          <button class="btn btn-primary" onclick="rouletteSpin()" style="margin-top:18px;">КРУТИТЬ</button>
+          <button class="bet-btn turbo-btn" onclick="toggleTurbo()" style="width:100%; margin-top:14px; margin-bottom:8px;">⚡ ТУРБО: <span class="turbo-status">ВЫКЛ</span></button>
+          <button class="btn btn-primary" id="rouletteSpinBtn" onclick="rouletteSpin()">КРУТИТЬ</button>
         </div>
         <div class="panel">
           <div class="roulette-wrap">
@@ -1530,6 +1789,7 @@
             <input type="number" class="input" id="upgTo" value="300" min="2" style="text-align:center; font-size:22px; font-weight:800; color:var(--neon-g);">
           </div>
         </div>
+        <button class="bet-btn turbo-btn" onclick="toggleTurbo()" style="width:100%; margin-bottom:12px;">⚡ ТУРБО: <span class="turbo-status">ВЫКЛ</span></button>
         <button class="btn btn-primary" id="upgBtn" onclick="upgraderRun()">АПГРЕЙД</button>
       </div>
     </div>
@@ -1570,7 +1830,7 @@
     <div id="debugAuth">
       <div class="debug-row">
         <label>Пароль:</label>
-        <input type="password" id="debugPass" placeholder="Введите пароль">
+        <input type="password" id="debugPass" placeholder="Введите пароль" onkeydown="if(event.key==='Enter') debugAuth()">
         <button onclick="debugAuth()">OK</button>
       </div>
       <div class="debug-row" style="margin-top:6px;">
@@ -1682,8 +1942,10 @@
       </div>
       <div class="debug-section">
         <h4>Сброс</h4>
-        <div class="debug-row">
+        <div class="debug-row" style="display:flex; flex-wrap:wrap; gap:8px;">
           <button onclick="clearAllForce()">Сбросить все форсы</button>
+          <button onclick="clearGameLogs()">Очистить логи игр</button>
+          <button onclick="resetAchievements()" style="background:var(--neon-r); color:#fff;">Сбросить достижения</button>
           <button onclick="resetProgress()" style="background:var(--neon-r); color:#fff;">Сбросить прогресс</button>
         </div>
       </div>
@@ -1700,9 +1962,172 @@ let state = {
   balance: 1000,
   inventory: [], // {id, name, emoji, value, rarity}
   crashHistory: [],
+  achievements: [],
+  totalBet: 0,
+  lowCrashCount: 0,
+  turbo: false,
 };
 let force = {}; // { crash: {value, lock}, arena: {...} ... }
 let debugUnlocked = false;
+
+/* =============== ACHIEVEMENTS DATA =============== */
+const ACHIEVEMENTS_DATA = [
+  { id: 'welcome', title: 'Добро пожаловать!', desc: 'Первый раз зайдите в игру', icon: '👋' },
+  { id: 'first_bet', title: 'Еще начало', desc: 'Сделайте первую ставку', icon: '🎲' },
+  { id: 'bal_1k', title: 'Тысяча!', desc: 'Баланс 1 000 LC', icon: '💵', target: 1000 },
+  { id: 'bal_10k', title: 'Молодец!', desc: 'Баланс 10 000 LC', icon: '💰', target: 10000 },
+  { id: 'bal_100k', title: 'Уже много', desc: 'Баланс 100 000 LC', icon: '💎', target: 100000 },
+  { id: 'bal_1m', title: 'Миллион', desc: 'Баланс 1 000 000 LC', icon: '🏆', target: 1000000 },
+  { id: 'bal_10m', title: 'Нифига себе', desc: 'Баланс 10 000 000 LC', icon: '👑', target: 10000000 },
+  { id: 'bal_100m', title: 'Куда разогнался то?', desc: 'Баланс 100 000 000 LC', icon: '🚀', target: 100000000 },
+  { id: 'bal_1b', title: 'Миллиард.', desc: 'Баланс 1 000 000 000 LC', icon: '🪐', target: 1000000000 },
+  { id: 'bet_10k', title: 'Нормально', desc: 'Поставьте 10 000 LC за все время', icon: '🎯', target: 10000 },
+  { id: 'bet_100k', title: 'Уверенный игрок', desc: 'Поставьте 100 000 LC за все время', icon: '🔥', target: 100000 },
+  { id: 'bet_1m', title: 'Ого', desc: 'Поставьте 1 000 000 LC за все время', icon: '⚡', target: 1000000 },
+  { id: 'bet_100m', title: 'Да ну?', desc: 'Поставьте 100 000 000 LC за все время', icon: '🌟', target: 100000000 },
+  { id: 'bet_1b', title: 'ОСТАНОВИСЬ', desc: 'Поставьте 1 000 000 000 LC за все время', icon: '🛑', target: 1000000000 },
+  { id: 'crash_2x', title: 'Новичок краша', desc: 'Словите множитель 2.0', icon: '📈' },
+  { id: 'crash_5x', title: 'Похвально', desc: 'Словите множитель 5.0', icon: '🎖️' },
+  { id: 'crash_10x', title: 'Куда дальше?', desc: 'Словите множитель 10.0', icon: '🌌' },
+  { id: 'crash_50x', title: '50', desc: 'Да, множитель 50!', icon: '💥' },
+  { id: 'crash_100x', title: '100', desc: 'Без комментариев.', icon: '☄️' },
+  { id: 'crash_low_2', title: 'Обидно', desc: 'Словите 1.0-1.10 2 раза', icon: '😢', target: 2 },
+  { id: 'crash_low_5', title: 'Очень обидно :(', desc: 'Словите 1.0-1.10 5 раз', icon: '😭', target: 5 },
+  { id: 'crash_low_10', title: '...', desc: 'Словите 1.0-1.10 10 раз', icon: '💀', target: 10 },
+  { id: 'debug', title: 'Дебаг меню', desc: 'Ну ты хитрый', icon: '🦊' }
+];
+
+function unlockAchievement(id) {
+  if (!state.achievements) state.achievements = [];
+  if (state.achievements.includes(id)) return;
+  const ach = ACHIEVEMENTS_DATA.find(a => a.id === id);
+  if (!ach) return;
+  state.achievements.push(id);
+  saveState();
+  achievementToast(ach.title, ach.desc);
+  renderAchievements();
+}
+
+function checkBalanceAchievements() {
+  const b = state.balance || 0;
+  if (b >= 1000) unlockAchievement('bal_1k');
+  if (b >= 10000) unlockAchievement('bal_10k');
+  if (b >= 100000) unlockAchievement('bal_100k');
+  if (b >= 1000000) unlockAchievement('bal_1m');
+  if (b >= 10000000) unlockAchievement('bal_10m');
+  if (b >= 100000000) unlockAchievement('bal_100m');
+  if (b >= 1000000000) unlockAchievement('bal_1b');
+}
+
+function checkBetAchievements() {
+  const tb = state.totalBet || 0;
+  if (tb >= 10000) unlockAchievement('bet_10k');
+  if (tb >= 100000) unlockAchievement('bet_100k');
+  if (tb >= 1000000) unlockAchievement('bet_1m');
+  if (tb >= 100000000) unlockAchievement('bet_100m');
+  if (tb >= 1000000000) unlockAchievement('bet_1b');
+}
+
+function checkCrashCashoutAchievements(mult) {
+  if (mult >= 2.0) unlockAchievement('crash_2x');
+  if (mult >= 5.0) unlockAchievement('crash_5x');
+  if (mult >= 10.0) unlockAchievement('crash_10x');
+  if (mult >= 50.0) unlockAchievement('crash_50x');
+  if (mult >= 100.0) unlockAchievement('crash_100x');
+}
+
+function recordBet(amount) {
+  amount = parseFloat(amount) || 0;
+  if (amount <= 0) return;
+  state.totalBet = (state.totalBet || 0) + amount;
+  unlockAchievement('first_bet');
+  checkBetAchievements();
+  saveState();
+  renderAchievements();
+}
+
+function recordLowCrash() {
+  state.lowCrashCount = (state.lowCrashCount || 0) + 1;
+  saveState();
+  if (state.lowCrashCount >= 2) unlockAchievement('crash_low_2');
+  if (state.lowCrashCount >= 5) unlockAchievement('crash_low_5');
+  if (state.lowCrashCount >= 10) unlockAchievement('crash_low_10');
+  renderAchievements();
+}
+
+function resetAchievements() {
+  if (!confirm('Вы уверены? Это действие нельзя отменить')) {
+    return;
+  }
+  state.achievements = [];
+  state.totalBet = 0;
+  state.lowCrashCount = 0;
+  saveState();
+  renderAchievements();
+  toast('Все достижения сброшены', 'lose');
+}
+
+function renderAchievements() {
+  const container = document.getElementById('achievementsList');
+  if (!container) return;
+  const unlocked = state.achievements || [];
+  const total = ACHIEVEMENTS_DATA.length;
+  const count = unlocked.length;
+  const percent = total > 0 ? Math.round((count / total) * 100) : 0;
+  
+  const countEl = document.getElementById('achUnlockedCount');
+  if (countEl) countEl.textContent = `${count} / ${total}`;
+  const pctEl = document.getElementById('achUnlockedPercent');
+  if (pctEl) pctEl.textContent = `${percent}%`;
+  const barEl = document.getElementById('achTotalProgressBar');
+  if (barEl) barEl.style.width = `${percent}%`;
+  const tbEl = document.getElementById('achTotalBetVal');
+  if (tbEl) tbEl.textContent = `${Math.floor(state.totalBet || 0).toLocaleString('ru-RU')} LC`;
+
+  container.innerHTML = ACHIEVEMENTS_DATA.map(ach => {
+    const isUnlocked = unlocked.includes(ach.id);
+    let progressHtml = '';
+    if (!isUnlocked) {
+      if (ach.id.startsWith('bal_') && ach.target) {
+        const cur = Math.min(state.balance || 0, ach.target);
+        const p = Math.min(100, Math.round((cur / ach.target) * 100));
+        progressHtml = `
+          <div style="font-size:11px; color:var(--text-muted); margin-top:6px;">Прогресс: ${Math.floor(cur).toLocaleString('ru-RU')} / ${Math.floor(ach.target).toLocaleString('ru-RU')} LC (${p}%)</div>
+          <div class="ach-progress-bar"><div class="ach-progress-fill" style="width:${p}%;"></div></div>
+        `;
+      } else if (ach.id.startsWith('bet_') && ach.target) {
+        const cur = Math.min(state.totalBet || 0, ach.target);
+        const p = Math.min(100, Math.round((cur / ach.target) * 100));
+        progressHtml = `
+          <div style="font-size:11px; color:var(--text-muted); margin-top:6px;">Прогресс: ${Math.floor(cur).toLocaleString('ru-RU')} / ${Math.floor(ach.target).toLocaleString('ru-RU')} LC (${p}%)</div>
+          <div class="ach-progress-bar"><div class="ach-progress-fill" style="width:${p}%;"></div></div>
+        `;
+      } else if (ach.target && ach.id.startsWith('crash_low_')) {
+        const cur = Math.min(state.lowCrashCount || 0, ach.target);
+        const p = Math.min(100, Math.round((cur / ach.target) * 100));
+        progressHtml = `
+          <div style="font-size:11px; color:var(--text-muted); margin-top:6px;">Прогресс: ${cur} / ${ach.target} (${p}%)</div>
+          <div class="ach-progress-bar"><div class="ach-progress-fill" style="width:${p}%;"></div></div>
+        `;
+      }
+    }
+    return `
+      <div class="achievement-card ${isUnlocked ? 'unlocked' : 'locked'}">
+        <div class="ach-icon-box">${ach.icon}</div>
+        <div class="ach-info">
+          <div class="ach-title">${ach.title}</div>
+          <div class="ach-desc">${ach.desc}</div>
+          <div>
+            ${isUnlocked 
+              ? `<span class="ach-badge unlocked">✓ Получено</span>` 
+              : `<span class="ach-badge locked">🔒 Закрыто</span>`}
+          </div>
+          ${progressHtml}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
 
 function loadState() {
   try {
@@ -1712,21 +2137,78 @@ function loadState() {
       state = { ...state, ...parsed };
     }
   } catch(e){}
+  if (!Array.isArray(state.achievements)) state.achievements = [];
+  state.totalBet = Number(state.totalBet) || 0;
+  state.lowCrashCount = Number(state.lowCrashCount) || 0;
+  state.turbo = !!state.turbo;
+
   renderBalance();
   renderInventory();
   renderCrashHistory();
+  renderAchievements();
+  renderTurboState();
+
+  // First visit achievement & initial balance check
+  unlockAchievement('welcome');
+  checkBalanceAchievements();
 }
 function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
+function toggleTurbo() {
+  state.turbo = !state.turbo;
+  saveState();
+  renderTurboState();
+  if (state.turbo) {
+    toast('⚡ Турбо-режим ВКЛЮЧЕН (без анимаций)', 'win');
+  } else {
+    toast('⚡ Турбо-режим ВЫКЛЮЧЕН', 'lose');
+  }
+}
+function renderTurboState() {
+  const isT = !!state.turbo;
+  document.body.classList.toggle('turbo-active', isT);
+  document.querySelectorAll('.turbo-btn').forEach(btn => {
+    btn.classList.toggle('active', isT);
+    const statusEl = btn.querySelector('.turbo-status');
+    if (statusEl) {
+      statusEl.textContent = isT ? 'ВКЛ' : 'ВЫКЛ';
+    }
+  });
+}
 function renderBalance() {
-  document.getElementById('balanceValue').textContent = Math.floor(state.balance).toLocaleString('ru-RU');
+  const container = document.getElementById('balanceContainer');
+  if (!container) return;
+  if (state.balance <= 0) {
+    container.className = 'balance-bonus-wrap';
+    container.innerHTML = `
+      <button class="btn btn-primary" onclick="claimZeroBonus()" style="padding: 8px 18px; border-radius: 30px; font-size: 13px; letter-spacing: 0.5px; width: auto; box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);">
+        🎁 БОНУС (500 LC)
+      </button>
+    `;
+  } else {
+    container.className = 'balance';
+    container.innerHTML = `
+      <span class="balance-icon">
+        <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="8" cy="8" r="6"/><path d="M18 8a6 6 0 0 1-6 6"/><path d="M14 14a6 6 0 0 1-6 6"/><circle cx="16" cy="16" r="6"/></svg>
+      </span>
+      <div>
+        <div class="balance-value" id="balanceValue">${Math.floor(state.balance).toLocaleString('ru-RU')}</div>
+      </div>
+      <span class="balance-label">LC</span>
+    `;
+  }
+}
+function claimZeroBonus() {
+  addBalance(500);
+  toast('🎉 Получен бонус 500 LC!', 'win');
 }
 function addBalance(x) {
   state.balance += x;
   if (state.balance < 0) state.balance = 0;
   renderBalance();
   saveState();
+  checkBalanceAchievements();
 }
 function canBet(x) {
   if (isNaN(x) || x <= 0) { toast('Некорректная ставка', 'lose'); return false; }
@@ -1744,12 +2226,17 @@ function toast(msg, type='') {
 
 function quickBet(id, mode) {
   const el = document.getElementById(id);
+  if (!el) return;
   let v = parseFloat(el.value) || 0;
   if (mode === 'min') v = 1;
-  else if (mode === 'max') v = Math.floor(state.balance);
+  else if (mode === 'max') v = Math.max(1, Math.floor(state.balance));
   else v = Math.max(1, Math.floor(v * mode));
   el.value = v;
   if (id === 'diceBet') updateDicePayout();
+  if (id === 'arenaBet' && typeof arenaState !== 'undefined' && !arenaState.spinning) {
+    arenaState.players = arenaGenerate();
+    arenaRender();
+  }
 }
 
 /* =============== NAVIGATION =============== */
@@ -1768,16 +2255,27 @@ function switchPage(page) {
   if (targetPage) targetPage.classList.add('active');
   const activeNav = document.querySelector(`.nav-item[data-page="${page}"]`);
   if (activeNav) activeNav.classList.add('active');
-  const title = activeNav ? activeNav.textContent.trim() : 'Lucky Game';
+  const title = (page === 'achievements') ? 'Достижения' : (activeNav ? activeNav.textContent.trim() : 'Lucky Game');
   document.getElementById('headerTitle').textContent = title;
+  if (page === 'achievements') {
+    renderAchievements();
+  }
   window.scrollTo(0,0);
 }
 document.getElementById('mobileMenuBtn').onclick = () => {
   document.getElementById('sidebar').classList.toggle('open');
 };
+document.addEventListener('click', (e) => {
+  const sidebar = document.getElementById('sidebar');
+  const menuBtn = document.getElementById('mobileMenuBtn');
+  if (sidebar && sidebar.classList.contains('open') && !sidebar.contains(e.target) && menuBtn && !menuBtn.contains(e.target)) {
+    sidebar.classList.remove('open');
+  }
+});
 
 /* Home modes grid */
 const MODES = [
+  { id: 'achievements', name: 'Достижения', icon: `<svg class="icon-svg" style="width:26px; height:26px;" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H8c-.55 0-1 .45-1 1v1h10v-1c0-.55-.45-1-1-1h-1c-.55 0-1-.45-1-1v-2.34c3.08-.75 5-3.32 5-6.66V3H5v6c0 3.34 1.92 5.91 5 6.66Z"/></svg>`, desc: 'Все твои трофеи (23 шт)' },
   { id: 'crash', name: 'Краш', icon: `<svg class="icon-svg" style="width:26px; height:26px;" viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-3.05 11a22.35 22.35 0 0 1-3.95 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>`, desc: 'Забери до взрыва' },
   { id: 'arena', name: 'Арена', icon: `<svg class="icon-svg" style="width:26px; height:26px;" viewBox="0 0 24 24"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/><line x1="19" y1="21" x2="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" y1="14" x2="9" y2="18"/><line x1="7" y1="17" x2="4" y2="20"/><line x1="3" y1="19" x2="5" y2="21"/></svg>`, desc: 'Битва ставок с ботами' },
   { id: 'plinko', name: 'Плинко', icon: `<svg class="icon-svg" style="width:26px; height:26px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`, desc: 'Шарик и пины' },
@@ -1800,8 +2298,16 @@ document.getElementById('modesGrid').innerHTML = MODES.map(m => `
 /* =============== DEBUG =============== */
 document.getElementById('debugTrigger').onclick = () => {
   document.getElementById('debugModal').classList.add('active');
+  const sidebar = document.getElementById('sidebar');
+  if (sidebar) sidebar.classList.remove('open');
   renderDebugMinesGrid();
 };
+const debugModalEl = document.getElementById('debugModal');
+if (debugModalEl) {
+  debugModalEl.addEventListener('click', (e) => {
+    if (e.target === debugModalEl) closeDebug();
+  });
+}
 function closeDebug() {
   document.getElementById('debugModal').classList.remove('active');
 }
@@ -1814,7 +2320,7 @@ function debugAuth() {
     document.getElementById('debugContent').style.display = 'block';
     renderDebugMinesGrid();
     if (isSecret) {
-      achievementToast('Дебаг меню?', 'Ну ты хитрый');
+      unlockAchievement('debug');
     }
   } else {
     toast('Неверный пароль', 'lose');
@@ -1829,7 +2335,7 @@ function achievementToast(name, desc) {
       <strong style="color:var(--gold-primary); font-size:12px; text-transform:uppercase; letter-spacing:0.5px;">Достижение получено</strong>
     </div>
     <div style="font-size:15px; font-weight:800; color:#fff;">${name}</div>
-    <div style="font-size:13px; color:var(--gold-light); margin-top:2px;">Описание: ${desc}</div>
+    <div style="font-size:13px; color:var(--gold-light); margin-top:2px;">${desc}</div>
   `;
   document.getElementById('toastContainer').appendChild(el);
   setTimeout(()=> el.remove(), 4500);
@@ -1845,6 +2351,7 @@ function debugSetBalance() {
   if (isNaN(v)) return;
   state.balance = v;
   renderBalance(); saveState();
+  checkBalanceAchievements();
   toast('Баланс = ' + v);
 }
 function debugCrashStop() {
@@ -1905,17 +2412,22 @@ function setForce(key) {
   switch(key) {
     case 'crash': value = parseFloat(document.getElementById('debugCrash').value); lockId = 'debugCrashLock'; break;
     case 'arena': value = parseInt(document.getElementById('debugArena').value); lockId = 'debugArenaLock'; break;
-    case 'arenaBank': value = parseFloat(document.getElementById('debugArenaBank').value); lockId = 'debugArenaBankLock'; break;
+    case 'arenaBank':
+      value = parseFloat(document.getElementById('debugArenaBank').value);
+      lockId = 'debugArenaBankLock';
+      break;
     case 'plinko': value = parseInt(document.getElementById('debugPlinko').value); lockId = 'debugPlinkoLock'; break;
     case 'case': value = document.getElementById('debugCase').value; lockId = 'debugCaseLock'; break;
-    case 'mines': value = document.getElementById('debugMines').value.split(',').map(s=>parseInt(s.trim())).filter(n=>!isNaN(n)); lockId = 'debugMinesLock'; break;
-    case 'hilo': value = parseInt(document.getElementById('debugHilo').value); lockId = 'debugHiloLock'; break;
     case 'dice': value = parseInt(document.getElementById('debugDice').value); lockId = 'debugDiceLock'; break;
     case 'roulette': value = parseInt(document.getElementById('debugRoul').value); lockId = 'debugRoulLock'; break;
     case 'upgrader': value = document.getElementById('debugUpg').value; lockId = 'debugUpgLock'; break;
   }
   const lock = document.getElementById(lockId).checked;
   force[key] = { value, lock };
+  if (key === 'arenaBank' && typeof arenaState !== 'undefined' && !arenaState.spinning) {
+    arenaState.players = arenaGenerate();
+    arenaRender();
+  }
   toast('Форс ' + key + ' установлен' + (lock?' (фикс)':''));
 }
 function consumeForce(key) {
@@ -1926,13 +2438,52 @@ function consumeForce(key) {
 }
 function clearAllForce() {
   force = {};
+  debugSelectedMines = [];
+  renderDebugMinesGrid();
+  hiloQueue = [];
+  hiloQueueIdx = 0;
+  const hq = document.getElementById('debugHiloQueue');
+  if (hq) hq.value = '';
   toast('Форсы сброшены');
+}
+function clearGameLogs() {
+  state.crashHistory = [];
+  saveState();
+  renderCrashHistory();
+  const diceRes = document.getElementById('diceResult');
+  if (diceRes) { diceRes.textContent = '–'; diceRes.style.color = ''; }
+  const roulRes = document.getElementById('rouletteResult');
+  if (roulRes) { roulRes.textContent = '–'; roulRes.style.color = ''; }
+  const caseRes = document.getElementById('caseResult');
+  if (caseRes) caseRes.innerHTML = '';
+  plinkoBalls = [];
+  drawPlinkoBoard();
+  if (typeof minesState !== 'undefined' && !minesState.active) {
+    initMinesGrid();
+    const mm = document.getElementById('minesMult');
+    if (mm) mm.textContent = '1.00×';
+  }
+  if (typeof hiloState !== 'undefined' && !hiloState.active) {
+    const cardEl = document.getElementById('hiloCard');
+    if (cardEl) {
+      cardEl.className = 'hilo-card';
+      cardEl.innerHTML = `
+        <div class="hilo-corner tl">-</div>
+        <div class="hilo-card-value">?</div>
+        <div class="hilo-card-suit">♠</div>
+        <div class="hilo-corner br">-</div>
+      `;
+    }
+    const hm = document.getElementById('hiloMult');
+    if (hm) hm.textContent = '1.00×';
+  }
+  toast('Логи и история игр очищены');
 }
 function resetProgress() {
   if (!confirm('Точно сбросить весь прогресс?')) return;
   localStorage.removeItem(STORAGE_KEY);
-  state = { balance: 1000, inventory: [], crashHistory: [] };
-  renderBalance(); renderInventory(); renderCrashHistory();
+  state = { balance: 1000, inventory: [], crashHistory: [], achievements: [], totalBet: 0, lowCrashCount: 0, turbo: false };
+  renderBalance(); renderInventory(); renderCrashHistory(); renderAchievements(); renderTurboState();
   toast('Прогресс сброшен');
 }
 
@@ -1941,8 +2492,10 @@ let crashState = { phase: 'idle', mult: 1, crashAt: 1, bet: 0, cashedOut: false,
 const crashCanvas = document.getElementById('crashCanvas');
 const crashCtx = crashCanvas.getContext('2d');
 function resizeCrash() {
-  crashCanvas.width = crashCanvas.clientWidth;
-  crashCanvas.height = crashCanvas.clientHeight;
+  if (crashCanvas.clientWidth > 0 && crashCanvas.clientHeight > 0) {
+    crashCanvas.width = crashCanvas.clientWidth;
+    crashCanvas.height = crashCanvas.clientHeight;
+  }
 }
 window.addEventListener('resize', resizeCrash);
 
@@ -1959,8 +2512,49 @@ function crashBetPlace() {
   const bet = parseFloat(document.getElementById('crashBet').value);
   const auto = parseFloat(document.getElementById('crashAuto').value) || 0;
   if (!canBet(bet)) return;
+
+  if (state.turbo) {
+    if (auto <= 1.0) {
+      toast('В турбо-режиме укажите авто-вывод (> 1.00×)', 'lose');
+      return;
+    }
+    addBalance(-bet);
+    recordBet(bet);
+    const crashAt = genCrashPoint();
+    if (crashAt <= 1.10) {
+      recordLowCrash();
+    }
+    const cashedOut = auto <= crashAt;
+    const finalMult = cashedOut ? auto : crashAt;
+    crashState = { phase: 'idle', mult: finalMult, crashAt, bet, cashedOut, autoAt: auto, startTime: performance.now() };
+
+    state.crashHistory.unshift(crashAt);
+    if (state.crashHistory.length > 15) state.crashHistory.pop();
+    saveState();
+    renderCrashHistory();
+
+    if (cashedOut) {
+      const win = bet * auto;
+      addBalance(win);
+      toast('⚡ Забрано: ' + Math.floor(win) + ' LC (x' + auto.toFixed(2) + ')', 'win');
+      checkCrashCashoutAchievements(auto);
+      document.getElementById('crashStatus').textContent = 'Победа на x' + auto.toFixed(2) + ' (крах x' + crashAt.toFixed(2) + ')';
+      updateCrashMultDisplay(auto);
+    } else {
+      toast('⚡ Ракета взорвалась на x' + crashAt.toFixed(2) + '! -' + bet + ' LC', 'lose');
+      document.getElementById('crashStatus').textContent = '💥 КРАХ на ' + crashAt.toFixed(2) + '×';
+      updateCrashMultDisplay(crashAt, true);
+    }
+    crashDraw();
+    document.getElementById('crashBetBtn').style.display = 'flex';
+    document.getElementById('crashCashoutBtn').style.display = 'none';
+    return;
+  }
+
   addBalance(-bet);
+  recordBet(bet);
   crashState = { phase: 'flying', mult: 1, crashAt: genCrashPoint(), bet, cashedOut: false, autoAt: auto, startTime: performance.now() };
+  updateCrashMultDisplay(1.00);
   document.getElementById('crashBetBtn').style.display = 'none';
   document.getElementById('crashCashoutBtn').style.display = 'flex';
   document.getElementById('crashCashoutBtn').disabled = false;
@@ -1975,6 +2569,7 @@ function crashCashout() {
   addBalance(win);
   toast('Забрано: ' + Math.floor(win) + ' LC (x' + crashState.mult.toFixed(2) + ')', 'win');
   document.getElementById('crashCashoutBtn').disabled = true;
+  checkCrashCashoutAchievements(crashState.mult);
 }
 
 function getCrashColorClass(m) {
@@ -2004,6 +2599,9 @@ function crashLoop(t) {
   crashState.mult = Math.pow(1.06, elapsed * 3);
   if (crashState.mult >= crashState.crashAt) {
     crashState.mult = crashState.crashAt;
+    if (crashState.crashAt <= 1.10) {
+      recordLowCrash();
+    }
     crashDraw();
     updateCrashMultDisplay(crashState.mult, true);
     document.getElementById('crashStatus').textContent = '💥 КРАХ!';
@@ -2018,9 +2616,11 @@ function crashLoop(t) {
       crashState.phase = 'idle';
       document.getElementById('crashBetBtn').style.display = 'flex';
       document.getElementById('crashCashoutBtn').style.display = 'none';
-      document.getElementById('crashMult').className = 'crash-multiplier';
-      document.getElementById('crashMult').textContent = '1.00×';
       document.getElementById('crashStatus').textContent = 'Ожидание ставки';
+      if (crashState.cashedOut) {
+        document.getElementById('crashMult').className = 'crash-multiplier';
+        document.getElementById('crashMult').textContent = '1.00×';
+      }
       crashDraw(true);
     }, 2500);
     return;
@@ -2095,8 +2695,8 @@ const PLAYER_COLOR = '#F5E6AD';
 
 let arenaState = { players: [], spinning: false };
 
-function arenaGenerate() {
-  const bet = parseFloat(document.getElementById('arenaBet').value) || 0;
+function arenaGenerate(consume = false) {
+  const bet = Math.max(1, parseFloat(document.getElementById('arenaBet').value) || 100);
   const players = [];
   players.push({ name: 'Вы', emoji: '🎩', bet: bet, color: PLAYER_COLOR, isPlayer: true });
   const nBots = 3 + Math.floor(Math.random()*3);
@@ -2111,17 +2711,20 @@ function arenaGenerate() {
     });
   }
 
-  const forcedBank = consumeForce('arenaBank');
+  const forcedBank = consume ? consumeForce('arenaBank') : (force['arenaBank'] ? force['arenaBank'].value : null);
   if (forcedBank !== null && forcedBank !== undefined && !isNaN(forcedBank) && forcedBank > 0) {
-    const currentBotSum = players.slice(1).reduce((s,p)=>s+p.bet,0);
-    const targetBotSum = Math.max(0, forcedBank - bet);
-    if (currentBotSum > 0 && targetBotSum > 0) {
-      players.slice(1).forEach(p => {
-        p.bet = Math.max(1, Math.round(p.bet / currentBotSum * targetBotSum));
-      });
-    } else if (targetBotSum === 0) {
-      players.slice(1).forEach(p => p.bet = 0);
-    }
+    const targetBotSum = Math.max(players.length - 1, forcedBank - bet);
+    const currentBotSum = players.slice(1).reduce((s,p)=>s+p.bet,0) || 1;
+    let allocated = 0;
+    const bots = players.slice(1);
+    bots.forEach((p, idx) => {
+      if (idx === bots.length - 1) {
+        p.bet = Math.max(1, targetBotSum - allocated);
+      } else {
+        p.bet = Math.max(1, Math.round((p.bet / currentBotSum) * targetBotSum));
+        allocated += p.bet;
+      }
+    });
   }
   return players;
 }
@@ -2196,7 +2799,8 @@ function arenaStart() {
   const bet = parseFloat(document.getElementById('arenaBet').value);
   if (!canBet(bet)) return;
   addBalance(-bet);
-  arenaState.players = arenaGenerate();
+  recordBet(bet);
+  arenaState.players = arenaGenerate(true);
   arenaState.players[0].bet = bet;
   arenaRender();
   arenaState.spinning = true;
@@ -2222,6 +2826,21 @@ function arenaStart() {
   const winEnd = (acc + players[winIdx].bet) / total * Math.PI * 2;
   const winMid = (winStart + winEnd) / 2;
   const targetRot = -winMid + Math.PI*8;
+
+  if (state.turbo) {
+    arenaDrawWheel(targetRot);
+    const winner = players[winIdx];
+    if (winner.isPlayer) {
+      addBalance(total);
+      toast('⚡ 🏆 Победа! +' + total + ' LC', 'win');
+    } else {
+      toast('⚡ Победил ' + winner.name, 'lose');
+    }
+    arenaState.spinning = false;
+    document.getElementById('arenaStartBtn').disabled = false;
+    return;
+  }
+
   const duration = 4500;
   const startTime = performance.now();
   function anim(t) {
@@ -2250,10 +2869,38 @@ const PLINKO_MULTS = {
   low:  [5.6, 2.1, 1.1, 1.0, 0.5, 1.0, 1.1, 2.1, 5.6],
   med:  [13, 3, 1.3, 0.7, 0.4, 0.7, 1.3, 3, 13],
   high: [29, 4, 1.5, 0.3, 0.2, 0.3, 1.5, 4, 29],
+  custom: [50, 12, 2.5, 0.5, -2, 0.5, 2.5, 12, 50],
 };
+
+function calcPlinkoCustomMults(maxVal) {
+  const maxM = Math.max(1, parseFloat(maxVal) || 1);
+  const minM = 0.95 - (maxM * 0.06);
+  const mults = [];
+  for (let i = 0; i < 9; i++) {
+    const dist = Math.abs(i - 4) / 4;
+    const m = minM + Math.pow(dist, 2.2) * (maxM - minM);
+    mults.push(parseFloat(m.toFixed(2)));
+  }
+  return mults;
+}
+
+function updatePlinkoCustomMult() {
+  if (plinkoRisk === 'custom') {
+    const maxVal = document.getElementById('plinkoCustomMult').value;
+    PLINKO_MULTS.custom = calcPlinkoCustomMults(maxVal);
+    drawPlinkoBoard();
+  }
+}
+
 function setPlinkoRisk(r) {
   plinkoRisk = r;
   document.querySelectorAll('.risk-btn[data-risk]').forEach(b => b.classList.toggle('active', b.dataset.risk === r));
+  const customGrp = document.getElementById('plinkoCustomGroup');
+  if (customGrp) customGrp.style.display = r === 'custom' ? 'block' : 'none';
+  if (r === 'custom') {
+    const maxVal = document.getElementById('plinkoCustomMult').value;
+    PLINKO_MULTS.custom = calcPlinkoCustomMults(maxVal);
+  }
   drawPlinkoBoard();
 }
 
@@ -2301,7 +2948,7 @@ function drawPlinkoBoard() {
     plinkoCtx.fill();
   });
   // bins
-  const mults = PLINKO_MULTS[plinkoRisk];
+  const mults = PLINKO_MULTS[plinkoRisk] || PLINKO_MULTS['low'];
   for (let i=0; i<bins; i++) {
     const m = mults[i];
     const color = m >= 2 ? '#2ECC71' : m >= 1 ? '#D4AF37' : '#FF3B30';
@@ -2313,9 +2960,16 @@ function drawPlinkoBoard() {
     plinkoCtx.lineWidth = 1.5;
     plinkoCtx.strokeRect(i*binW + 2, h - 50, binW - 4, 44);
     plinkoCtx.fillStyle = color;
-    plinkoCtx.font = 'bold 12px sans-serif';
+    const txt = m + '×';
+    const maxTextW = binW - 6;
+    let fs = Math.min(12, Math.max(7, Math.floor(binW / 3.4)));
+    plinkoCtx.font = `bold ${fs}px sans-serif`;
+    while (plinkoCtx.measureText(txt).width > maxTextW && fs > 7) {
+      fs--;
+      plinkoCtx.font = `bold ${fs}px sans-serif`;
+    }
     plinkoCtx.textAlign = 'center';
-    plinkoCtx.fillText(m + '×', i*binW + binW/2, h - 22);
+    plinkoCtx.fillText(txt, i*binW + binW/2, h - 22);
   }
   // draw active balls
   plinkoBalls.forEach(b => {
@@ -2333,6 +2987,7 @@ function plinkoDrop() {
   const bet = parseFloat(document.getElementById('plinkoBet').value);
   if (!canBet(bet)) return;
   addBalance(-bet);
+  recordBet(bet);
   const forced = consumeForce('plinko');
   let targetBin;
   if (forced !== null && forced !== undefined && !isNaN(forced) && forced >= 0 && forced < 9) {
@@ -2362,7 +3017,19 @@ function plinkoDrop() {
   const finalX = (targetBin + 0.5) * binW;
   path.push({ x: finalX, y: h - 60 });
 
-  const ball = { x: startX, y: 0, path, step: 0, progress: 0, bet, bin: targetBin };
+  const activeMults = PLINKO_MULTS[plinkoRisk] || PLINKO_MULTS['low'];
+  const mult = activeMults[targetBin];
+  if (state.turbo) {
+    const win = bet * mult;
+    addBalance(win);
+    if (mult >= 1) toast('⚡ Плинко: x' + mult + ' = +' + Math.floor(win) + ' LC', 'win');
+    else toast('⚡ Плинко: x' + mult + ' = ' + Math.floor(win) + ' LC' + (mult < 0 ? ' (штраф)' : ''), 'lose');
+    plinkoBalls = [{ x: (targetBin + 0.5) * binW, y: h - 55 }];
+    drawPlinkoBoard();
+    return;
+  }
+
+  const ball = { x: startX, y: 0, path, step: 0, progress: 0, bet, bin: targetBin, mult };
   plinkoBalls.push(ball);
   if (plinkoBalls.length === 1) requestAnimationFrame(plinkoAnim);
 }
@@ -2386,11 +3053,11 @@ function plinkoAnim() {
   drawPlinkoBoard();
   const finished = plinkoBalls.filter(b => b.finished);
   finished.forEach(b => {
-    const mult = PLINKO_MULTS[plinkoRisk][b.bin];
+    const mult = b.mult !== undefined ? b.mult : (PLINKO_MULTS[plinkoRisk] || PLINKO_MULTS['low'])[b.bin];
     const win = b.bet * mult;
     addBalance(win);
-    if (mult >= 1) toast('Плинко: x' + mult + ' = ' + Math.floor(win) + ' LC', 'win');
-    else toast('Плинко: x' + mult + ' = ' + Math.floor(win) + ' LC', 'lose');
+    if (mult >= 1) toast('Плинко: x' + mult + ' = +' + Math.floor(win) + ' LC', 'win');
+    else toast('Плинко: x' + mult + ' = ' + Math.floor(win) + ' LC' + (mult < 0 ? ' (штраф)' : ''), 'lose');
   });
   plinkoBalls = plinkoBalls.filter(b => !b.finished);
   if (plinkoBalls.length > 0) requestAnimationFrame(plinkoAnim);
@@ -2469,6 +3136,7 @@ function openCase(id) {
   if (!box) return;
   if (!canBet(box.price)) return;
   addBalance(-box.price);
+  recordBet(box.price);
   caseOpening = true;
   document.getElementById('caseOpenArea').style.display = 'block';
   document.getElementById('caseOpenTitle').textContent = box.emoji + ' ' + box.name;
@@ -2483,6 +3151,35 @@ function openCase(id) {
     let r = Math.random() * totalW;
     winItem = box.items[0];
     for (const it of box.items) { r -= it.weight; if (r <= 0) { winItem = it; break; } }
+  }
+
+  if (state.turbo) {
+    const existing = state.inventory.find(x => x.name === winItem.name);
+    if (existing) existing.qty++;
+    else state.inventory.push({ ...winItem, qty: 1 });
+    saveState();
+    renderInventory();
+    document.getElementById('caseOpenArea').style.display = 'block';
+    document.getElementById('caseOpenTitle').textContent = box.emoji + ' ' + box.name;
+    const strip = document.getElementById('caseStrip');
+    strip.style.transition = 'none';
+    strip.style.transform = 'translateX(-66px)';
+    strip.innerHTML = `
+      <div class="case-item" style="border-top-color:${RARITY_COLOR[winItem.rarity]};">
+        <div class="case-item-emoji">${winItem.emoji}</div>
+        <div class="case-item-name">${winItem.name}</div>
+        <div class="case-item-value">${winItem.value} LC</div>
+      </div>
+    `;
+    document.getElementById('caseResult').innerHTML = `
+      <div style="font-size:16px; margin-top:16px; color:${RARITY_COLOR[winItem.rarity]}; font-weight:700;">
+        ⚡ Выпало: <b>${winItem.emoji} ${winItem.name}</b> (${winItem.value} LC)
+      </div>
+      <button class="btn btn-gold" style="max-width:200px; margin:14px auto 0;" onclick="sellItem('${winItem.name}', 1)">Продать за ${winItem.value} LC</button>
+    `;
+    toast('⚡ Выпало: ' + winItem.name + ' (' + winItem.value + ' LC)', 'win');
+    caseOpening = false;
+    return;
   }
 
   const strip = document.getElementById('caseStrip');
@@ -2562,6 +3259,11 @@ function sellItem(name, qty) {
   saveState();
   renderInventory();
   toast('Продано: ' + name + ' +' + (it.value*q) + ' LC', 'win');
+  const resBtn = document.querySelector('#caseResult button');
+  if (resBtn) {
+    resBtn.disabled = true;
+    resBtn.textContent = 'Продано ✓';
+  }
 }
 function sellAllInv() {
   if (state.inventory.length === 0) return;
@@ -2604,15 +3306,20 @@ function minesStart() {
   if (!canBet(bet)) return;
   if (mc < 1 || mc > 24) { toast('Мин: 1-24'); return; }
   addBalance(-bet);
-  minesState = { active: true, bet, minesCount: mc, revealed: [], mines: [], mult: 1 };
+  recordBet(bet);
   const forced = consumeForce('mines');
-  if (forced && Array.isArray(forced) && forced.length === mc) {
-    minesState.mines = forced.filter(n => n >= 0 && n < 25);
+  let actualMines = [];
+  let actualCount = mc;
+  if (forced && Array.isArray(forced) && forced.length > 0) {
+    actualMines = forced.filter(n => n >= 0 && n < 25);
+    actualCount = Math.max(1, Math.min(24, actualMines.length));
+    document.getElementById('minesCount').value = actualCount;
   } else {
     const cells = Array.from({length:25}, (_,i)=>i);
     for (let i=cells.length-1; i>0; i--) { const j = Math.floor(Math.random()*(i+1)); [cells[i],cells[j]]=[cells[j],cells[i]]; }
-    minesState.mines = cells.slice(0, mc);
+    actualMines = cells.slice(0, actualCount);
   }
+  minesState = { active: true, bet, minesCount: actualCount, revealed: [], mines: actualMines, mult: 1 };
   initMinesGrid();
   document.getElementById('minesMult').textContent = '1.00×';
   document.getElementById('minesStartBtn').style.display = 'none';
@@ -2696,8 +3403,12 @@ function hiloDrawCard(card) {
     <div class="hilo-card-suit">${card.suit.s}</div>
     <div class="hilo-corner br">${lbl}${card.suit.s}</div>
   `;
-  el.style.transform = 'scale(1.05)';
-  setTimeout(()=>el.style.transform='scale(1)', 200);
+  if (!state.turbo) {
+    el.style.transform = 'scale(1.05)';
+    setTimeout(()=>el.style.transform='scale(1)', 200);
+  } else {
+    el.style.transform = 'none';
+  }
 }
 function hiloUpdateBtns() {
   const c = hiloState.currentCard;
@@ -2716,6 +3427,7 @@ function hiloStart() {
   const bet = parseFloat(document.getElementById('hiloBet').value);
   if (!canBet(bet)) return;
   addBalance(-bet);
+  recordBet(bet);
   hiloState = { active: true, bet, mult: 1, currentCard: hiloRandomCard() };
   hiloDrawCard(hiloState.currentCard);
   document.getElementById('hiloMult').textContent = '1.00×';
@@ -2728,7 +3440,7 @@ function hiloGuess(dir) {
   const c = hiloState.currentCard;
   let next = hiloRandomCard();
   let tries = 0;
-  while (next.value === c.value && tries < 5 && !force.hilo) { next = hiloRandomCard(); tries++; }
+  while (next.value === c.value && tries < 5 && !force.hilo && !force.hiloQueue) { next = hiloRandomCard(); tries++; }
   const higherCount = 13 - c.value;
   const lowerCount = c.value - 1;
   const mH = higherCount > 0 ? (12 / higherCount) * 0.97 : 0;
@@ -2801,6 +3513,7 @@ function diceRoll() {
   if (!canBet(bet)) return;
   const t = parseInt(document.getElementById('diceSlider').value);
   addBalance(-bet);
+  recordBet(bet);
   const forced = consumeForce('dice');
   let n;
   if (forced && !isNaN(forced)) n = Math.max(1, Math.min(100, forced));
@@ -2814,9 +3527,9 @@ function diceRoll() {
   if (win) {
     const w = bet * mult;
     addBalance(w);
-    toast('Победа! ' + n + ' → +' + Math.floor(w) + ' LC', 'win');
+    toast((state.turbo ? '⚡ ' : '') + 'Победа! ' + n + ' → +' + Math.floor(w) + ' LC', 'win');
   } else {
-    toast('Мимо: ' + n + ' • -' + bet + ' LC', 'lose');
+    toast((state.turbo ? '⚡ ' : '') + 'Мимо: ' + n + ' • -' + bet + ' LC', 'lose');
   }
 }
 
@@ -2863,21 +3576,24 @@ let rouletteSpinning = false;
 function rouletteSpin() {
   if (rouletteSpinning) return;
   const bets = {
-    red: parseFloat(document.getElementById('roul-red').value)||0,
-    black: parseFloat(document.getElementById('roul-black').value)||0,
-    even: parseFloat(document.getElementById('roul-even').value)||0,
-    odd: parseFloat(document.getElementById('roul-odd').value)||0,
-    low: parseFloat(document.getElementById('roul-low').value)||0,
-    high: parseFloat(document.getElementById('roul-high').value)||0,
+    red: Math.max(0, parseFloat(document.getElementById('roul-red').value)||0),
+    black: Math.max(0, parseFloat(document.getElementById('roul-black').value)||0),
+    even: Math.max(0, parseFloat(document.getElementById('roul-even').value)||0),
+    odd: Math.max(0, parseFloat(document.getElementById('roul-odd').value)||0),
+    low: Math.max(0, parseFloat(document.getElementById('roul-low').value)||0),
+    high: Math.max(0, parseFloat(document.getElementById('roul-high').value)||0),
     num: parseInt(document.getElementById('roul-num').value),
-    numBet: parseFloat(document.getElementById('roul-num-bet').value)||0,
+    numBet: Math.max(0, parseFloat(document.getElementById('roul-num-bet').value)||0),
   };
   let total = bets.red + bets.black + bets.even + bets.odd + bets.low + bets.high;
   if (!isNaN(bets.num) && bets.numBet > 0) total += bets.numBet;
   if (total <= 0) { toast('Сделайте ставку'); return; }
   if (!canBet(total)) return;
   addBalance(-total);
+  recordBet(total);
   rouletteSpinning = true;
+  const spinBtn = document.getElementById('rouletteSpinBtn');
+  if (spinBtn) spinBtn.disabled = true;
 
   const forced = consumeForce('roulette');
   let winNum;
@@ -2887,6 +3603,32 @@ function rouletteSpin() {
   const idx = ROUL_ORDER.indexOf(winNum);
   const seg = Math.PI * 2 / ROUL_ORDER.length;
   const targetRot = -(idx + 0.5)*seg + Math.PI * 10;
+
+  if (state.turbo) {
+    drawRoulette(targetRot);
+    let win = 0;
+    const isRed = RED_NUMS.has(winNum);
+    const isBlack = winNum !== 0 && !isRed;
+    if (isRed) win += bets.red * 2;
+    if (isBlack) win += bets.black * 2;
+    if (winNum !== 0 && winNum % 2 === 0) win += bets.even * 2;
+    if (winNum !== 0 && winNum % 2 === 1) win += bets.odd * 2;
+    if (winNum >= 1 && winNum <= 18) win += bets.low * 2;
+    if (winNum >= 19 && winNum <= 36) win += bets.high * 2;
+    if (!isNaN(bets.num) && bets.num === winNum) win += bets.numBet * 36;
+    document.getElementById('rouletteResult').textContent = winNum;
+    document.getElementById('rouletteResult').style.color = rouletteColor(winNum) === '#181820' ? '#fff' : rouletteColor(winNum);
+    if (win > 0) {
+      addBalance(win);
+      toast('⚡ 🎉 Выпало ' + winNum + '! +' + win + ' LC', 'win');
+    } else {
+      toast('⚡ Выпало ' + winNum + '. Проигрыш -' + total + ' LC', 'lose');
+    }
+    rouletteSpinning = false;
+    if (spinBtn) spinBtn.disabled = false;
+    return;
+  }
+
   const dur = 4500;
   const t0 = performance.now();
   function anim(t) {
@@ -2914,6 +3656,7 @@ function rouletteSpin() {
         toast('Выпало ' + winNum + '. Проигрыш -' + total + ' LC', 'lose');
       }
       rouletteSpinning = false;
+      if (spinBtn) spinBtn.disabled = false;
     }
   }
   requestAnimationFrame(anim);
@@ -2921,6 +3664,7 @@ function rouletteSpin() {
 
 /* =============== UPGRADER =============== */
 function updateUpgrader() {
+  if (upgraderRunning) return;
   const from = parseFloat(document.getElementById('upgFrom').value) || 0;
   const to = parseFloat(document.getElementById('upgTo').value) || 0;
   const arc = document.getElementById('upgCircleArc');
@@ -2956,6 +3700,7 @@ function upgraderRun() {
   if (!canBet(from)) return;
   if (to <= from) { toast('Цель должна быть > ставки'); return; }
   addBalance(-from);
+  recordBet(from);
   const mult = to / from;
   const chance = 0.95 / mult;
   const chancePct = Math.min(95, chance*100);
@@ -2966,6 +3711,8 @@ function upgraderRun() {
   else win = Math.random() < chance;
   upgraderRunning = true;
   document.getElementById('upgBtn').disabled = true;
+  document.getElementById('upgFrom').disabled = true;
+  document.getElementById('upgTo').disabled = true;
   
   const winDeg = (chancePct / 100) * 360;
   let targetDeg;
@@ -2973,7 +3720,30 @@ function upgraderRun() {
   else targetDeg = winDeg + Math.random() * (360 - winDeg);
   
   const totalRot = 1080 + targetDeg;
+
+  if (state.turbo) {
+    const needle = document.getElementById('upgNeedleWrap');
+    if (needle) {
+      needle.style.transition = 'none';
+      needle.style.transform = `rotate(${totalRot}deg)`;
+    }
+    if (win) {
+      addBalance(to);
+      toast('⚡ 🎉 Апгрейд успешен! +' + to + ' LC', 'win');
+    } else {
+      toast('⚡ Апгрейд провален. -' + from + ' LC', 'lose');
+    }
+    upgraderRunning = false;
+    document.getElementById('upgBtn').disabled = false;
+    document.getElementById('upgFrom').disabled = false;
+    document.getElementById('upgTo').disabled = false;
+    return;
+  }
+
   const needle = document.getElementById('upgNeedleWrap');
+  needle.style.transition = 'none';
+  needle.style.transform = 'rotate(0deg)';
+  needle.offsetHeight; // force reflow
   needle.style.transition = 'transform 3s cubic-bezier(0.15, 0.85, 0.25, 1)';
   needle.style.transform = `rotate(${totalRot}deg)`;
   
@@ -2986,6 +3756,8 @@ function upgraderRun() {
     }
     upgraderRunning = false;
     document.getElementById('upgBtn').disabled = false;
+    document.getElementById('upgFrom').disabled = false;
+    document.getElementById('upgTo').disabled = false;
   }, 3100);
 }
 
@@ -3009,11 +3781,13 @@ window.switchPage = function(page) {
     if (page === 'plinko') drawPlinkoBoard();
     if (page === 'arena') arenaRender();
     if (page === 'roulette') drawRoulette(0);
-    if (page === 'crash') crashDraw(true);
+    if (page === 'crash') { resizeCrash(); crashDraw(true); }
+    if (page === 'upgrader') updateUpgrader();
   }, 50);
 };
 window.addEventListener('resize', () => {
   drawPlinkoBoard();
+  resizeCrash();
   crashDraw(true);
 });
 </script>
